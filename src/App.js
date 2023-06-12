@@ -1,24 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import {Route, Routes} from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import CoursePage from "./pages/CoursePage";
+import NavBar from "./components/NavBar";
+import React from "react";
+import TeachingCalendar from "./pages/TeachingCalendar";
+import Lecture from "./pages/Lecture";
+import Test from "./components/Test";
+import SectionDetailPage from "./pages/SectionDetailPage";
+import LessonPage from "./components/LessonPage";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+  return (<div className="pr-5">
+          <NavBar/>
+          <Routes>
+              <Route path={"/"} element={<HomePage/>} />
+              <Route path={"/course"} element={<CoursePage/>} />
+              <Route path={"/calendar"} element={<TeachingCalendar />} />
+              <Route path={"/lecture"} element={<Lecture />} />
+              <Route path={'/test'} element={<Test/>}/>
+              <Route path={'/section'} element={<SectionDetailPage/>}/>
+              <Route path={'/lesson'} element={<LessonPage/>}/>
+          </Routes>
+  </div>
   );
 }
 
