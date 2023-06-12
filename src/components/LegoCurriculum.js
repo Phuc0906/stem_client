@@ -6,10 +6,12 @@ import UnitCard from "./lego_lesson_unit/unit_frame/UnitCard";
 const LegoCurriculum = () => {
     const [currentContent, setCurrentContent] = useState(4);
     useEffect(() => {
-        axios.get('http://localhost:8080/api/web-scraping').then(res => {
+        axios.get('http://localhost:8080/api/web-scraping/section-lesson').then(res => {
+            // console.log(JSON.stringify(res.data));
         }).catch(err => {
             console.log(err);
         })
+
     }, [])
 
     const onLoadMoreClick = () => {

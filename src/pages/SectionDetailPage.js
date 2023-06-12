@@ -13,6 +13,7 @@ const SectionDetailPage = () => {
     useEffect(() => {
         console.log(location.state.data);
         setSectionContent(location.state.data);
+        console.log(planDataLessons[idx]);
 
         axios.get('http://localhost:8080/api/web-scraping/section-lesson').then(res => {
             // console.log(JSON.stringify(res.data));

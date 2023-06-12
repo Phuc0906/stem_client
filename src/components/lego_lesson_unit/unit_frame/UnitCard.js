@@ -23,7 +23,7 @@ const UnitCard = ({lesson, idx, to}) => {
                             <label>{lesson.category}</label>
                         </div>
                         <div>
-                            <label>{(lesson.grade.includes('Grade')) ? ' ' : 'Grade'}{lesson.grade}</label>
+                            <label>{lesson.grade}</label>
                         </div>
                     </div>
                 </div>
