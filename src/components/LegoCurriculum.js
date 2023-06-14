@@ -24,7 +24,7 @@ const LegoCurriculum = () => {
         <div className="text-4xl font-bold ">
             <label>Unit Plans </label>
         </div>
-        <div className="flex flex-wrap gap-4 mb-8">
+        <div className="flex flex-wrap gap-6 mb-8">
             {planData.map((lesson, index) => {
                 if (index < currentContent) {
                     return <UnitCard key={index} idx={index} lesson={lesson} to={"/section"} />

@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 const UnitCard = ({lesson, idx, to}) => {
 
 
-    return <div className="mt-6 shadow-gray-200 shadow-xl w-2/5 hover:shadow-2xl rounded-lg">
+    return <div className="mt-6 shadow-gray-200 shadow-xl w-2/5 hover:shadow-2xl rounded-lg min-w-[400px] min-h-[380px]">
         <Link to={to} state={{data: lesson, idx: idx}}>
             <div className="w-full relative pb-24 rounded-t-lg">
                 <div className="rounded-t-lg">

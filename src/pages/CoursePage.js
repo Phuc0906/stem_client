@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Curriculum from "../components/Curriculum";
 import Announcement from "../components/Announcement";
 import Student from "../components/Student";
@@ -7,7 +7,7 @@ import LegoCurriculum from "../components/LegoCurriculum";
 
 const CoursePage = () => {
     const [burgerClick, setBurgerClick] = useState(false);
-    const content = ['Thông ', 'Giáo Trình', 'Giáo Trình Lego' , 'Nhóm', 'Học Sinh']
+    const content = ['Thông Báo ', 'Giáo Trình', 'Giáo Trình Lego' , 'Nhóm', 'Học Sinh']
     const [selectedContent, setSelectedContent] = useState(parseInt(localStorage.ocean_education_current_course_selected));
     const [students, setStudents] = useState(['Student A', 'Student B', "Student C", 'Student D', "Student E"]);
     const [numberOfGroup, setNumberOfGroup] = useState(1);
@@ -18,7 +18,22 @@ const CoursePage = () => {
         <LegoCurriculum/>,
         <Group students={students} setStudents={setStudents} numberOfGroup={numberOfGroup} setNumberOfGroup={setNumberOfGroup} groupArr={groupArr} setGroupArr={setGroupArr} selectedStudents={selectedStudents} setSelectedStudents={setSelectedStudent}/>,
         <Student/>];
+    const [isPhone, setIsPhone] = useState(false);
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth < 700) {
+                setIsPhone(true);
+            }else {
+                setIsPhone(false);
+            }
+        };
 
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, [])
 
     const onBurgerClick = () => {
         setBurgerClick(!burgerClick);
@@ -36,7 +51,7 @@ const CoursePage = () => {
         </div>
     }
 
-    return <div className="pl-5 pt-10 pr-5 w-full fixed left-28 overflow-auto h-screen overflow-auto">
+    return <div className={`pl-5 pt-10 pr-5 w-full ${!isPhone ? 'fixed left-28' : ''}  overflow-auto h-screen overflow-auto`}>
         <div className="">
             <div className="flex items-center gap-8 border-b-2 border-b-gray-500 w-full pb-5 pr-4">
                 <div onClick={onBurgerClick}>
