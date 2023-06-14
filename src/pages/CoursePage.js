@@ -19,9 +19,18 @@ const CoursePage = () => {
         <Group students={students} setStudents={setStudents} numberOfGroup={numberOfGroup} setNumberOfGroup={setNumberOfGroup} groupArr={groupArr} setGroupArr={setGroupArr} selectedStudents={selectedStudents} setSelectedStudents={setSelectedStudent}/>,
         <Student/>];
     const [isPhone, setIsPhone] = useState(false);
+
+    useEffect(() => {
+        if (window.innerWidth < 900) {
+            setIsPhone(true);
+        }else {
+            setIsPhone(false);
+        }
+    }, [])
+
     useEffect(() => {
         const handleResize = () => {
-            if (window.innerWidth < 700) {
+            if (window.innerWidth < 900) {
                 setIsPhone(true);
             }else {
                 setIsPhone(false);

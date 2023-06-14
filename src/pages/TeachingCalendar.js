@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import vi from "date-fns/locale/vi";
 import {Calendar, dateFnsLocalizer} from "react-big-calendar";
 import format from "date-fns/format";
@@ -8,6 +8,33 @@ import getDay from "date-fns/getDay";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
 const TeachingCalendar = () => {
+    const [isPhone, setIsPhone] = useState(false);
+
+    useEffect(() => {
+        if (window.innerWidth < 900) {
+            setIsPhone(true);
+        }else {
+            setIsPhone(false);
+        }
+    }, [])
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth < 700) {
+                setIsPhone(true);
+            }else {
+                setIsPhone(false);
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, [])
+
+
     const locales = {
         'vi': vi,
     }
@@ -38,7 +65,7 @@ const TeachingCalendar = () => {
         },
     ];
 
-    return <div className="pl-5 pt-10 pr-5 w-full fixed left-12 right-10 overflow-auto h-screen overflow-auto">
+    return <div className={`pt-10 w-full ${!isPhone ? ' pl-5 fixed left-12 right-10 pr-5 ' : ''}  overflow-auto h-screen overflow-auto`}>
         <Calendar localizer={localizer} events={myEventsList} startAccessor="start" endAccessor="end" style={{ height: 500, margin: "50px" }} />
     </div>
 }

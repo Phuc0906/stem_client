@@ -4,6 +4,15 @@ import CourseCard from "../components/CourseCard";
 const HomePage = () => {
     const arr = [0,0,0,0];
     const [isPhone, setIsPhone] = useState(false);
+
+    useEffect(() => {
+        if (window.innerWidth < 900) {
+            setIsPhone(true);
+        }else {
+            setIsPhone(false);
+        }
+    }, [])
+
     useEffect(() => {
         const handleResize = () => {
             if (window.innerWidth < 700) {
