@@ -60,7 +60,7 @@ const CoursePage = () => {
         </div>
     }
 
-    return <div className={`pl-5 pt-10 pr-5 w-full ${!isPhone ? 'fixed left-28' : ''}  overflow-auto h-screen overflow-auto`}>
+    return <div className={`pl-5 pt-10 pr-5 w-full ${!isPhone ? 'fixed left-28 ' : ''}  overflow-auto h-screen overflow-auto`}>
         <div className="">
             <div className="flex items-center gap-8 border-b-2 border-b-gray-500 w-full pb-5 pr-4">
                 <div onClick={onBurgerClick}>

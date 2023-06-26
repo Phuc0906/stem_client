@@ -10,6 +10,7 @@ import SectionDetailPage from "./pages/SectionDetailPage";
 import LessonPage from "./components/LessonPage";
 import EnterpriseNavBar from "./components/NavBarDir/EnterpriseNavBar";
 import PeoplePage from "./pages/PeoplePage"
+import EnterpriseCoursePage from "./pages/EnterpriseCoursePage";
 
 function App() {
     const role = 1;
@@ -82,7 +83,9 @@ function App() {
             <Route path={'/test'} element={<Test/>}/>
             <Route path={'/section'} element={<SectionDetailPage/>}/>
             <Route path={'/lesson'} element={<LessonPage/>}/>
-            <Route path={'people'} element={<PeoplePage/>}/>
+            <Route path={'/people'} element={<PeoplePage/>}/>
+            <Route path={'/enterprise/course-page'} element={<EnterpriseCoursePage/>}/>
+
         </Routes>
     </div>
     );
