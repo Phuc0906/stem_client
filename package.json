@@ -11,6 +11,7 @@
     "date-fns": "^2.30.0",
     "puppeteer": "^20.5.0",
     "react": "^18.2.0",
+    "react-auth-kit": "^2.12.3",
     "react-big-calendar": "^1.6.9",
     "react-date-range": "^1.4.0",
     "react-datepicker": "^4.14.1",
@@ -19,6 +20,7 @@
     "react-pdf-scroll": "^1.0.0",
     "react-router-dom": "^6.11.2",
     "react-scripts": "5.0.1",
+    "react-time-picker": "^6.2.0",
     "request-promise": "^4.2.6",
     "web-vitals": "^2.1.4"
   },
