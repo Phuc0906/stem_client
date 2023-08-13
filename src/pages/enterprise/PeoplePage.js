@@ -125,6 +125,22 @@ const PeoplePage = () => {
             setInfo(teacher);
         }
 
+        const onResetPassword = () => {
+            axios.post(`${process.env.REACT_APP_API_URL}api/auth/reset-password`, {
+                email: teacher.email,
+                password: ""
+            }, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + localStorage.ocean_education_token,
+                }
+            }).then(res => {
+                setIsLoginInfoShow(true);
+                setLoginInfo(res.data);
+            });
+
+        }
+
         return <tr className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600">
             <td className="whitespace-nowrap px-6 py-4 font-medium">{teacher.id}</td>
             <td className="whitespace-nowrap px-6 py-4">{teacher.name}</td>
@@ -134,11 +150,11 @@ const PeoplePage = () => {
             <td className="whitespace-nowrap px-6 py-4">{teacher.gender}</td>
             <td className="whitespace-nowrap px-6 py-4">{teacher.dateOfBirth}</td>
             {isTeacher ? <td className="whitespace-nowrap px-6 py-4">{teacher.workingType}</td> : null}
-            {isTeacher ? <td className="whitespace-nowrap px-6 py-4"><div className="cursor-pointer bg-blue-200 w-fit px-3 py-1 rounded-xl hover:bg-blue-400 active:bg-blue-500">
+            {isTeacher ? <td className="whitespace-nowrap px-6 py-4"><div onClick={onResetPassword} className="cursor-pointer bg-blue-200 w-fit px-3 py-1 rounded-xl hover:bg-blue-400 active:bg-blue-500">
                 Reset
             </div></td> : null}
             <td className="whitespace-nowrap px-6 py-4"><div onClick={onRowClickHandle} className="cursor-pointer bg-orange-200 w-fit px-3 py-1 rounded-xl hover:bg-orange-400 active:bg-orange-500">
-                Update
+                Cập Nhật
             </div></td>
         </tr>
     }
@@ -149,15 +165,15 @@ const PeoplePage = () => {
             <div className="flex items-center justify-between">
                 <div className="flex">
                     <div onClick={onTeacherClick} className={`w-fit pr-3 pl-3 pt-3 pb-2 transition duration-500 border-b-orange-200 border-b-2 ${isTeacher ? 'border-opacity-100' : 'border-opacity-0'}`}>
-                        Giao Vien
+                        Giáo Viên
                     </div>
                     <div onClick={onStudentClick} className={`w-fit pr-3 pl-3 pt-3 pb-2 transition duration-500 border-b-orange-200 border-b-2 ${!isTeacher ? 'border-opacity-100' : 'border-opacity-0'}`}>
-                        Hoc Sinh
+                        Học Sinh
                     </div>
                 </div>
                 <div onClick={addHandle} className="bg-purple-300 p-1.5 rounded-xl hover:bg-purple-100 active:bg-purple-500">
                     <div >
-                        <label>Them {isTeacher ? 'Giao Vien' : 'Hoc Sinh'}</label>
+                        <label>Thêm {isTeacher ? 'Giao Vien' : 'Hoc Sinh'}</label>
                     </div>
                 </div>
             </div>
@@ -170,15 +186,15 @@ const PeoplePage = () => {
                                     <thead className="border-b font-medium dark:border-neutral-500">
                                     <tr>
                                         <th scope="col" className="px-6 py-4">#</th>
-                                        <th scope="col" className="px-6 py-4">Ten</th>
-                                        <th scope="col" className="px-6 py-4">So Dien Thoai</th>
-                                        {isTeacher ? <th scope="col" className="px-6 py-4">Cap Bac</th>: null}
+                                        <th scope="col" className="px-6 py-4">Tên</th>
+                                        <th scope="col" className="px-6 py-4">Số Điện Thoại</th>
+                                        {isTeacher ? <th scope="col" className="px-6 py-4">Cấp bậc</th>: null}
                                         <th scope="col" className="px-6 py-4">Email</th>
-                                        <th scope="col" className="px-6 py-4">Gioi tinh</th>
-                                        <th scope="col" className="px-6 py-4">Ngay thang nam sinh </th>
-                                        {isTeacher ? <th scope="col" className="px-6 py-4">Phuong thuc lam viec</th>: null}
+                                        <th scope="col" className="px-6 py-4">Giới tính</th>
+                                        <th scope="col" className="px-6 py-4">Ngày Tháng Năm Sinh</th>
+                                        {isTeacher ? <th scope="col" className="px-6 py-4">Phương Thức Làm Việc</th>: null}
                                         {isTeacher ? <th scope="col" className="px-6 py-4">Reset Password</th>: null}
-                                        <th scope="col" className="px-6 py-4">Chinh sua </th>
+                                        <th scope="col" className="px-6 py-4">Chỉnh sửa </th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -195,13 +211,13 @@ const PeoplePage = () => {
         {isLoginInfoShow ? <div className="fixed inset-0 flex items-center justify-center">
             <div className="w-1/2 h-2/5 bg-gray-50 border-2 border-gray-400 p-2 rounded-xl flex flex-col gap-4 relative">
                 <div className="text-xl font-bold p-4 text-center">
-                    <label>Tai Khoan cua giao vien </label>
+                    <label>Tài Khoản Của Giáo Viên</label>
                 </div>
                 <div className="text-xl font-bold p-4 text-left">
-                    <label>Email dang nhap: {loginInfo.email} </label>
+                    <label>Email Đăng Nhập: {loginInfo.email} </label>
                 </div>
                 <div className="text-xl font-bold p-4 text-left">
-                    <label>Mat khau: {loginInfo.password}</label>
+                    <label>Mật khẩu: {loginInfo.password}</label>
                 </div>
                 <div onClick={() => {
                     setIsLoginInfoShow(false);

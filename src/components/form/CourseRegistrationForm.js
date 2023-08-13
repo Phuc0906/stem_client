@@ -125,10 +125,14 @@ const CourseRegistrationForm = ({course, setCourse, setIsAddCourse, isUpdate, se
                         for (let i = 0; i < classType.totalSession; i++) {
                             startDate.setDate(startDate.getDate() + i * 7);
                             if (isSameDate(startDate, currentStartDate)) {
+                                // teacher schedule
                                 const startHour = parseInt(classType.startTime.split(":")[0]);
                                 const startMinutes = parseInt(classType.startTime.split(":")[1]);
                                 let endHour = parseInt(classType.duration / 60) + startHour;
                                 const endMinutes = ((parseInt(classType.duration % 60) + startMinutes === 60) ? 0 : parseInt(classType.duration % 60) + startMinutes);
+
+
+                                // current time
                                 const currentStartHour = parseInt(course.startTime.split(":")[0]);
                                 const currentStartMinutes = parseInt(course.startTime.split(":")[1]);
                                 let currentEndHour = parseInt(course.duration / 60) + currentStartHour;
@@ -180,7 +184,7 @@ const CourseRegistrationForm = ({course, setCourse, setIsAddCourse, isUpdate, se
 
             }
         })
-    }, [teacherClass, course.startDate, time])
+    }, [teacherClass, course, time])
 
     function isTimeRangeOverlap(startA, endA, startB, endB) {
         return (startA <= endB) && (endA >= startB);
@@ -370,14 +374,14 @@ const CourseRegistrationForm = ({course, setCourse, setIsAddCourse, isUpdate, se
     return <div className="fixed inset-0 flex items-center justify-center opacity-100 ">
         <div className="w-4/5 h-screen overflow-auto bg-gray-50 border-2 border-gray-400 p-2 rounded-xl flex flex-col gap-4 relative pb-10 mt-10 mb-10 ">
             <div className="w-full flex flex-row justify-center text-3xl font-bold">
-                <label>Form Tao Khoa Hoc</label>
+                <label>Form Tạo Khoá Học</label>
             </div>
             <div>
                 <div>
                     <div className="flex gap-5 items-center p-2">
                         <div>
                             <label>
-                                Ten Khoa Hoc
+                                Tên Khoa Học
                             </label>
                         </div>
                         <div className="w-1/2 border-2 border-gray-300 rounded-xl">
@@ -387,7 +391,7 @@ const CourseRegistrationForm = ({course, setCourse, setIsAddCourse, isUpdate, se
                     <div className="flex gap-5 items-center p-2">
                         <div>
                             <label>
-                                Ma Lop Hoc
+                                Mã lớp học
                             </label>
                         </div>
                         <div className="w-1/4 border-2 border-gray-300 rounded-xl">
@@ -397,7 +401,7 @@ const CourseRegistrationForm = ({course, setCourse, setIsAddCourse, isUpdate, se
                     <div className="flex gap-5 items-center p-2">
                         <div>
                             <label>
-                                Ngay Khai Giang
+                                Ngày Khai Giảng
                             </label>
                         </div>
                         <div onClick={selectingDateStart} className=" w-3/5">
@@ -412,7 +416,7 @@ const CourseRegistrationForm = ({course, setCourse, setIsAddCourse, isUpdate, se
                     <div className="flex gap-5 items-center p-2">
                         <div>
                             <label>
-                                Bo Cong Cu
+                                Bộ Công Cụ
                             </label>
                         </div>
                         <div className=" w-4/5 ">
@@ -427,7 +431,7 @@ const CourseRegistrationForm = ({course, setCourse, setIsAddCourse, isUpdate, se
                     <div className="flex gap-5 items-center p-2">
                         <div>
                             <label>
-                                Giao Vien
+                                Giáo viên
                             </label>
                         </div>
                         <div className=" w-1/5 ">
@@ -442,7 +446,7 @@ const CourseRegistrationForm = ({course, setCourse, setIsAddCourse, isUpdate, se
                     <div className="flex gap-5 items-center p-2">
                         <div>
                             <label>
-                                Gio Bat Dau
+                                Giờ bắt đầu
                             </label>
                         </div>
                         <div>
@@ -454,13 +458,13 @@ const CourseRegistrationForm = ({course, setCourse, setIsAddCourse, isUpdate, se
                             />
                         </div>
                         {isOverLap ? <div className="text-lg text-red-700">
-                            <label>Khung gio bi trung voi lop </label>
+                            <label>Khung Giờ Bị Trùng </label>
                         </div> : null}
                     </div>
                     <div className="flex gap-5 items-center p-2">
                         <div>
                             <label>
-                                Thoi gian giang day (phut)
+                                Thời gian giảng dạy (phút)
                             </label>
                         </div>
                         <div className="w-1/4 border-2 border-gray-300 rounded-xl">
@@ -470,7 +474,7 @@ const CourseRegistrationForm = ({course, setCourse, setIsAddCourse, isUpdate, se
                     <div className="flex gap-5 items-center p-2">
                         <div>
                             <label>
-                                So buoi hoc
+                                Số buổi học
                             </label>
                         </div>
                         <div className="w-1/4 border-2 border-gray-300 rounded-xl">
@@ -481,7 +485,7 @@ const CourseRegistrationForm = ({course, setCourse, setIsAddCourse, isUpdate, se
                 <div className="w-full flex flex-col justify-center text-3xl font-bold mt-10 mb-10">
                     <div className="text-center mb-10 flex flex-col justify-center items-center gap-6">
                         <div className="flex justify-center gap-5 items-center ">
-                            <label>Bai Hoc</label>
+                            <label>Bài Học</label>
                         </div>
                     </div>
                     <div>
@@ -493,10 +497,10 @@ const CourseRegistrationForm = ({course, setCourse, setIsAddCourse, isUpdate, se
                                             <thead className="border-b font-medium dark:border-neutral-500">
                                             <tr>
                                                 <th scope="col" className="px-6 py-4">#</th>
-                                                <th scope="col" className="px-6 py-4">Ten Bai Hoc</th>
-                                                <th scope="col" className="px-6 py-4">Ma file</th>
-                                                <th scope="col" className="px-6 py-4">Doi tuong</th>
-                                                <th scope="col" className="px-6 py-4">Chon</th>
+                                                <th scope="col" className="px-6 py-4">Tên Bài Học</th>
+                                                <th scope="col" className="px-6 py-4">Mã file</th>
+                                                <th scope="col" className="px-6 py-4">Đối tượng</th>
+                                                <th scope="col" className="px-6 py-4">Chọn</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -512,7 +516,7 @@ const CourseRegistrationForm = ({course, setCourse, setIsAddCourse, isUpdate, se
                 <div className="w-full flex flex-col justify-center text-3xl font-bold mt-10 mb-10">
                     <div className="text-center mb-10 flex flex-col justify-center items-center gap-6 relative">
                         <div className="flex justify-center gap-5 items-center ">
-                            <label>Danh sach hoc sinh</label>
+                            <label>Danh sách học sinh</label>
                         </div>
                         <div className="w-full">
                             <div className="flex items-center gap-5 w-full justify-center">
@@ -534,7 +538,7 @@ const CourseRegistrationForm = ({course, setCourse, setIsAddCourse, isUpdate, se
                                     }
                                 }} className="text-lg font-normal bg-blue-100 p-1.5 rounded-xl cursor-pointer hover:bg-gray-100 active:bg-gray-400">
                                     <div>
-                                        Them Hoc sinh
+                                        Thêm học sinh
                                     </div>
                                 </div>
                             </div>
@@ -566,9 +570,9 @@ const CourseRegistrationForm = ({course, setCourse, setIsAddCourse, isUpdate, se
                                             <thead className="border-b font-medium dark:border-neutral-500">
                                             <tr>
                                                 <th scope="col" className="px-6 py-4">#</th>
-                                                <th scope="col" className="px-6 py-4">Ten Hoc Sinh</th>
-                                                <th scope="col" className="px-6 py-4">So dien thoai</th>
-                                                <th scope="col" className="px-6 py-4">Ngay thang nam sinh</th>
+                                                <th scope="col" className="px-6 py-4">Tên Học Sinh</th>
+                                                <th scope="col" className="px-6 py-4">Số điện thoại</th>
+                                                <th scope="col" className="px-6 py-4">Ngày tháng năm sinh</th>
                                                 <th scope="col" className="px-6 py-4"></th>
                                             </tr>
                                             </thead>
@@ -590,7 +594,7 @@ const CourseRegistrationForm = ({course, setCourse, setIsAddCourse, isUpdate, se
                 </div>
                 <div className="flex justify-between ml-3 mr-3 mt-5">
                     <div onClick={addCourseHandle} className="cursor-pointer bg-purple-200 p-2 rounded-xl hover:bg-gray-300 active:bg-gray-500">
-                        Them Khoa Hoc
+                        Thêm Khoa Hoc
                     </div>
                     <div onClick={() => {
                         setIsAddCourse(false);
@@ -607,7 +611,7 @@ const CourseRegistrationForm = ({course, setCourse, setIsAddCourse, isUpdate, se
                             }
                         )
                     }} className="cursor-pointer bg-purple-200 p-2 rounded-xl hover:bg-gray-300 active:bg-gray-500">
-                        Cancel
+                        Khoát
                     </div>
                 </div>
             </div>

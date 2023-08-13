@@ -3,22 +3,37 @@ import Curriculum from "../../components/tab/Curriculum";
 import Announcement from "../../components/tab/Announcement";
 import Student from "../../components/tab/Student";
 import Group from "../../components/tab/Group";
-import LegoCurriculum from "../../components/tab/LegoCurriculum";
+import {useLocation} from "react-router-dom";
+import axios from "axios";
 
 const CoursePage = () => {
     const [burgerClick, setBurgerClick] = useState(false);
-    const content = ['Thông Báo ', 'Giáo Trình', 'Giáo Trình Lego' , 'Nhóm', 'Học Sinh']
+    const location = useLocation();
+    const content = ['Thông Báo ', 'Giáo Trình' , 'Nhóm']
     const [selectedContent, setSelectedContent] = useState(parseInt(localStorage.ocean_education_current_course_selected));
-    const [students, setStudents] = useState(['Student A', 'Student B', "Student C", 'Student D', "Student E"]);
+    const [students, setStudents] = useState([]);
     const [numberOfGroup, setNumberOfGroup] = useState(1);
     const [groupArr, setGroupArr] = useState(Array.from({ length: 1 }, (_, index) => index + 1));
-    const [selectedStudents, setSelectedStudent] = useState(Array.from({ length: numberOfGroup }, () => Array.from({length: 0}, () => "")))
+    const [selectedStudents, setSelectedStudent] = useState([[]])
     const courseComponents = [<Announcement/>,
-        <Curriculum/>,
-        <LegoCurriculum/>,
-        <Group students={students} setStudents={setStudents} numberOfGroup={numberOfGroup} setNumberOfGroup={setNumberOfGroup} groupArr={groupArr} setGroupArr={setGroupArr} selectedStudents={selectedStudents} setSelectedStudents={setSelectedStudent}/>,
+        <Curriculum course={location.state.course} />,
+        <Group course={location.state.course} students={students} setStudents={setStudents} numberOfGroup={numberOfGroup} setNumberOfGroup={setNumberOfGroup} groupArr={groupArr} setGroupArr={setGroupArr} selectedStudents={selectedStudents} setSelectedStudents={setSelectedStudent}/>,
         <Student/>];
     const [isPhone, setIsPhone] = useState(false);
+
+    useEffect(() => {
+        axios.get(`${process.env.REACT_APP_API_URL}api/class-type/student/group?id=${location.state.course.id}`, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + localStorage.ocean_education_token,
+            }
+        }).then(res => {
+            console.log(res.data);
+            setStudents(res.data);
+        }).catch(err => {
+            console.log(err);
+        })
+    }, [])
 
     useEffect(() => {
         if (window.innerWidth < 900) {
@@ -55,7 +70,7 @@ const CoursePage = () => {
             localStorage.ocean_education_current_course_selected = idx.toString();
         }
 
-        return <div onClick={onSelectHandle} className={`text-2xl w-fit transition delay-75 ${(selectedContent === idx) ? 'text-purple-800 border-l-2 border-purple-900 ' : 'text-blue-500'} pl-3 hover:underline `}>
+        return <div onClick={onSelectHandle} className={`text-2xl w-full transition delay-75 ${(selectedContent === idx) ? 'text-purple-800 border-l-2 border-purple-900 ' : 'text-blue-500'} pl-3 hover:underline `}>
             <label>{content}</label>
         </div>
     }
@@ -76,8 +91,8 @@ const CoursePage = () => {
             </div>
         </div>
         <div className="flex flex-row gap-3 pr-5">
-            <div className={`mt-10 p-3 duration-300 transition ease-in-out ${burgerClick ? 'hidden' : ''}`}>
-                <div className="flex flex-col gap-8">
+            <div className={`mt-10 w-1/4 p-3 duration-300 transition ease-in-out ${burgerClick ? 'hidden' : ''}`}>
+                <div className="flex flex-col gap-8 text-center justify-center">
                     {content.map((label, index) => <SideContentGenerator  content={label} key={index} idx={index} selectedContent={selectedContent} />)}
                 </div>
             </div>

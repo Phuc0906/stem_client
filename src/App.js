@@ -5,7 +5,6 @@ import NavBar from "./components/NavBarDir/NavBar";
 import React, {useEffect, useState} from "react";
 import TeachingCalendar from "./pages/teacher/TeachingCalendar";
 import Lecture from "./pages/teacher/Lecture";
-import Test from "./components/Test";
 import SectionDetailPage from "./pages/teacher/SectionDetailPage";
 import LessonPage from "./pages/teacher/LessonPage";
 import EnterpriseNavBar from "./components/NavBarDir/EnterpriseNavBar";
@@ -15,6 +14,9 @@ import CourseManagementCalender from "./pages/enterprise/CourseManagementCalende
 import LoginPage from "./pages/auth/LoginPage";
 import { RequireAuth } from "react-auth-kit";
 import EnterpriseLessonPage from "./pages/enterprise/EnterpriseLessonPage";
+import ChangePasswordPage from "./pages/auth/ChangePasswordPage";
+import AccountPage from "./pages/auth/AccountPage";
+import Test from "./pages/Test";
 
 function App() {
     const [isPhone, setIsPhone] = useState(false);
@@ -84,7 +86,9 @@ function App() {
         <Routes>
             <Route path={"/"} element={<RequireAuth loginPath="/login"><HomePage/></RequireAuth>} />
             <Route path={"/login"} element={<LoginPage setIsLogin={setIsLogin}/>} />
+            <Route path={"/change-password"} element={<ChangePasswordPage/>}/>
             <Route path={"/course"} element={<RequireAuth loginPath="/login"><CoursePage/></RequireAuth>} />
+            <Route path={"/account"} element={<RequireAuth loginPath="/login"><AccountPage/></RequireAuth>} />
             <Route path={"/calendar"} element={<RequireAuth loginPath="/login"><TeachingCalendar /></RequireAuth>} />
             <Route path={"/lecture"} element={<RequireAuth loginPath="/login"><Lecture /></RequireAuth>} />
             <Route path={'/test'} element={<Test/>}/>

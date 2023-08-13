@@ -15,7 +15,7 @@ const EnterpriseCoursePage = () => {
         "startDate": "",
         "teacherId": 0,
         "startTime": "12:30",
-        "duration": 0,
+        "duration": 90,
         "totalSession": 1
     })
 
@@ -46,6 +46,11 @@ const EnterpriseCoursePage = () => {
 
     useEffect(() => {
         localStorage.ocean_education_current_course_selected = "0";
+
+
+
+
+
         axios.get(`${process.env.REACT_APP_API_URL}api/class-type`, {
             headers: {
                 "Content-Type": "application/json",
@@ -78,11 +83,11 @@ const EnterpriseCoursePage = () => {
                             "startDate": "",
                             "teacherId": 0,
                             "startTime": "12:00",
-                            "duration": 0,
+                            "duration": 90,
                             "totalSession": 1
                         })
                     }} className="cursor-pointer bg-purple-300 p-2 rounded-xl hover:bg-gray-200 active:bg-gray-600">
-                        <label>Them Khoa Hoc</label>
+                        <label>Thêm Khoá Học</label>
                     </div>
                 </div>
             </div>

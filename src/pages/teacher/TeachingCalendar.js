@@ -6,9 +6,11 @@ import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
 import getDay from "date-fns/getDay";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import axios from "axios";
 
 const TeachingCalendar = () => {
     const [isPhone, setIsPhone] = useState(false);
+    const [calendar, setCalendar] = useState([]);
 
     useEffect(() => {
         if (window.innerWidth < 900) {
@@ -32,6 +34,43 @@ const TeachingCalendar = () => {
         return () => {
             window.removeEventListener('resize', handleResize);
         };
+    }, []);
+
+    useEffect(() => {
+        axios.get(`${process.env.REACT_APP_API_URL}api/teacher/class-type/jwt`, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + localStorage.ocean_education_token,
+            }
+        }).then(res => {
+            console.log(res);
+            const calendarData = [];
+            for (let i = 0; i < res.data.length; i++) {
+                let idx = 0;
+                while (idx < res.data[i].totalSession) {
+                    const startHour = parseInt(res.data[i].startTime.split(":")[0]);
+                    const startMinutes = parseInt(res.data[i].startTime.split(":")[1]);
+                    let endHour = parseInt(res.data[i].duration / 60) + startHour;
+                    const endMinutes = ((parseInt(res.data[i].duration % 60) + startMinutes === 60) ? 0 : parseInt(res.data[i].duration % 60) + startMinutes);
+                    if ((parseInt(res.data[i].duration % 60) + startMinutes === 60)) {
+                        endHour += 1
+                    }
+                    let startDate = new Date(parseInt(res.data[i].startDate.split("-")[2]), parseInt(res.data[i].startDate.split("-")[1]) - 1, parseInt(res.data[i].startDate.split("-")[0]), startHour, startMinutes, 0)
+                    let endDate = new Date(parseInt(res.data[i].startDate.split("-")[2]), parseInt(res.data[i].startDate.split("-")[1]) - 1, parseInt(res.data[i].startDate.split("-")[0]), endHour, endMinutes, 0)
+
+                    startDate.setDate(startDate.getDate() + idx * 7)
+                    endDate.setDate(endDate.getDate() + idx * 7)
+                    calendarData.push({
+                        title: `${res.data[i].name} - Giao Vien: ${res.data[i].teacherName}` ,
+                        start: startDate,
+                        end: endDate,
+                    })
+                    idx++;
+                }
+            }
+            console.log(calendarData);
+            setCalendar(calendarData);
+        })
     }, [])
 
 
@@ -47,26 +86,8 @@ const TeachingCalendar = () => {
         locales,
     })
 
-    const myEventsList = [
-        {
-            title: "Course A",
-            start: new Date(2023, 5, 7, 9, 33, 30),
-            end: new Date(2023, 5, 7, 10, 33, 0),
-        },
-        {
-            title: "Course B",
-            start: new Date(2023, 5, 7, 12, 33, 30),
-            end: new Date(2023, 5, 7, 13, 33, 0),
-        },
-        {
-            title: "Course C",
-            start: new Date(2023, 5, 7, 16, 0, 0),
-            end: new Date(2023, 5, 7, 17,30, 0),
-        },
-    ];
-
     return <div className={`pt-10 w-full ${!isPhone ? ' pl-5 fixed left-12 right-10 pr-5 ' : ''}  overflow-auto h-screen overflow-auto`}>
-        <Calendar localizer={localizer} events={myEventsList} startAccessor="start" endAccessor="end" style={{ height: 500, margin: "50px" }} />
+        <Calendar localizer={localizer} events={calendar} startAccessor="start" endAccessor="end" style={{ height: 500, margin: "50px" }} />
     </div>
 }
 

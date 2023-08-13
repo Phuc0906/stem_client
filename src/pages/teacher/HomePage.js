@@ -34,7 +34,7 @@ const HomePage = () => {
 
     useEffect(() => {
         localStorage.ocean_education_current_course_selected = "0";
-        axios.get(`${process.env.REACT_APP_API_URL}api/teacher/class-type?id=1`, {
+        axios.get(`${process.env.REACT_APP_API_URL}api/teacher/class-type/jwt`, {
             headers: {
                 "Content-Type": "application/json",
                 Authorization: "Bearer " + localStorage.ocean_education_token,

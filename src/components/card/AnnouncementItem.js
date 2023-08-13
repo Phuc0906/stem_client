@@ -1,6 +1,6 @@
 import React from "react";
 
-const AnnouncementItem = () => {
+const AnnouncementItem = ({title}) => {
     return <div className="text-2xl flex gap-4 items-center border-t-2 border-gray-300 px-6 py-10 hover:underline">
         <div>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#301934" className="w-10 h-10">
@@ -13,7 +13,7 @@ const AnnouncementItem = () => {
             </svg>
         </div>
         <div className="text-purple-950">
-            <label>Thông  1</label>
+            <label>Thông báo  1</label>
         </div>
     </div>
 }

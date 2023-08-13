@@ -30,12 +30,21 @@ const LoginPage = ({setIsLogin}) => {
         }).then(res => {
             setIsLogin(true);
             localStorage.ocean_education_token = res.data.accessToken
-            signIn({
-                token: res.data.accessToken,
-                expiresIn: 3600,
-                tokenType: "Bearer",
-                authState: {email: email}
-            });
+            localStorage.ocean_education_software_user_email = email;
+            localStorage.ocean_education_software_user_role = res.data.role;
+
+            if (res.data.reset === 1) {
+                navigate('/change-password');
+                window.location.reload();
+                return;
+            }else {
+                signIn({
+                    token: res.data.accessToken,
+                    expiresIn: 3600,
+                    tokenType: "Bearer",
+                    authState: {email: email}
+                });
+            }
 
             if (res.data.role === "ENTERPRISE") {
                 navigate("/people");
@@ -47,6 +56,8 @@ const LoginPage = ({setIsLogin}) => {
                 navigate("/people");
             }
             window.location.reload();
+        }).catch(err => {
+            alert("Sai ten dang nhap hoac mat khau")
         })
     }
 
@@ -57,7 +68,7 @@ const LoginPage = ({setIsLogin}) => {
             <div className="w-36 h-36">
                 <img className="w-full h-full" src={logo} />
             </div>
-            <label className="mt-5 text-4xl font-bold">Dang nhap</label>
+            <label className="mt-5 text-4xl font-bold">Đăng nhập</label>
             <div className="mt-6 w-1/2 rounded-xl">
                 <input onChange={(e) => {
                     setEmail(e.target.value)
@@ -66,11 +77,11 @@ const LoginPage = ({setIsLogin}) => {
             <div className="mt-6 w-1/2 rounded-xl ">
                 <input onChange={(e) => {
                     setPassword(e.target.value)
-                }} type={"password"} value={password} className="w-full h-full bg-gray-200 p-4 rounded-xl text-xl focus:border-2 focus:border-purple-400 transition-colors peer " placeholder={"Password "} style={{outline: 'none'}} />
+                }} type={"password"} value={password} className="w-full h-full bg-gray-200 p-4 rounded-xl text-xl focus:border-2 focus:border-purple-400 transition-colors peer " placeholder={"Mật Khẩu "} style={{outline: 'none'}} />
             </div>
             <div onClick={onLoginHandle} className="w-1/2 mx-8 mt-3 flex justify-center">
                 <div className="text-xl font-bold p-2 bg-red-400 w-full text-center rounded-xl cursor-pointer hover:bg-gray-100 active:bg-red-300">
-                    Dang nhap
+                    Đăng nhập
                 </div>
             </div>
         </div>
